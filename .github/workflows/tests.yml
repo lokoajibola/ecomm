@@ -18,6 +18,11 @@ jobs:
         wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
         sudo apt-get update
         sudo apt-get install -y google-chrome-stable
+    - name: Kill existing Chrome processes
+      run: |
+          sudo pkill -o -e -f chrome || true
+          sudo pkill -o -e -f chromedriver || true
+          sleep 2  # Give time for processes to terminate
     - name: Run tests
       run: pytest tests/test_ecommerce.py --html=report.html
     - name: Upload report
